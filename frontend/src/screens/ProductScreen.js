@@ -1,24 +1,38 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button, ListGroupItem } from  'react-bootstrap';
+
+import { ListProductDetails } from '../actions/productActions';
 import Rating from '../components/Rating';
-import axios from 'axios';
+import Loader from '../components/Loader';
+import Error from '../components/Error';
+// import axios from 'axios';
 
 // import products from '../products';
 
 const ProductScreen = ( { match }) => {
 
-    const [product, setProduct] = useState({});
+    const dispatch = useDispatch();
 
-    useEffect( () => {
-        const fetchProduct = async () => {
-            const res = await axios.get(`/api/products/${match.params.pid}`);
+    const productDetails = useSelector( state => state.productDetails)
+    const { loading, error, product } = productDetails;
 
-            setProduct(res.data);
-        }
+    useEffect(() => {
+        dispatch(ListProductDetails(match.params.pid))
+    }, [dispatch, match])
 
-        fetchProduct();
-    }, [match]);
+    // const [product, setProduct] = useState({});
+
+    // useEffect( () => {
+    //     const fetchProduct = async () => {
+    //         const res = await axios.get(`/api/products/${match.params.pid}`);
+
+    //         setProduct(res.data);
+    //     }
+
+    //     fetchProduct();
+    // }, [match]);
 
     // const product = products.find( (product) => {
     //     return product._id === match.params.pid;
@@ -26,7 +40,7 @@ const ProductScreen = ( { match }) => {
 
     return <div>
         <Link className="btn btn-dark my-3" to="/" >Go Back</Link>
-
+        { loading ? <Loader />: error ? <Error variant='danger'>{error}</Error> :
         <Row>
             <Col md={6}>
                 <Image src={product.image} alt={product.name} fluid/>
@@ -83,7 +97,7 @@ const ProductScreen = ( { match }) => {
                     </ListGroup>
                 </Card>
             </Col>
-        </Row>
+        </Row> }
     </div>
 }
 
