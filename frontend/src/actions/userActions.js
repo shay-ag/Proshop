@@ -43,7 +43,7 @@ export const login = (email, password) => async (dispatch) => {
             type: USER_LOGIN_FAIL,
             payload: error.response && error.response.data.message 
             ? error.response.data.message 
-            : error.message
+            : error.message,
         })
     }
 };
@@ -66,17 +66,17 @@ export const register = (name, email, password) => async( dispatch) => {
             }
         }
     
-        const { data } = await axios.post('/api/users/', 
-            { name, email, password}, config);
+        const { data } = await axios.post('/api/users', 
+            { name, email, password }, config);
     
         dispatch( {
             type: USER_REGISTER_SUCCESS,
-            payload: data
+            payload: data,
         })
         
         dispatch({
             type: USER_LOGIN_SUCCESS,
-            payload: data
+            payload: data,
         })
     
         localStorage.setItem('userInfo', JSON.stringify(data));
@@ -84,10 +84,9 @@ export const register = (name, email, password) => async( dispatch) => {
     } catch (error) {
         dispatch({
             type: USER_REGISTER_FAIL,
-            payload: 
-                error.response && error.response.data.message
-                    ? error.message.data.message
-                    : error.message
+            payload: error.response && error.response.data.message 
+            ? error.response.data.message 
+            : error.message,
         })
     }
 } 
@@ -118,10 +117,9 @@ export const getUserDetails = (id) => async( dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: USER_DETAILS_FAIL,
-            payload: 
-                error.response && error.response.data.message
-                    ? error.message.data.message
-                    : error.message
+            payload: error.response && error.response.data.message 
+            ? error.response.data.message 
+            : error.message,
         })
     }
 } 
@@ -159,10 +157,9 @@ export const updateUserProfile = (user) => async( dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: USER_UPDATE_PROFILE_FAIL,
-            payload: 
-                error.response && error.response.data.message
-                    ? error.message.data.message
-                    : error.message
+            payload: error.response && error.response.data.message 
+            ? error.response.data.message 
+            : error.message,
         })
     }
 } 
